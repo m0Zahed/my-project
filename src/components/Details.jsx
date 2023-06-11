@@ -9,7 +9,7 @@ export const musicObject = {
             harmonics: "location of split audio 4",
             other: "location of split audio 5"}
     }
-
+``
 export default function Detail(params)
 {   
     
