@@ -1,25 +1,58 @@
-import logo from './logo.svg';
 import './App.css';
+import SideScroller from './components/SideScroller';
+import Login from './components/Login'
+import { useState } from 'react';
+import Register from './components/Register';
+import { useRouteLoaderData } from 'react-router-dom';
 
-function App() {
+
+function Header(props){
+  const { size, extra } = props;
+  let classText = `${extra} text-${size}xl font-bold underline`;
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div class="bg-black text-white">
+      <h1 className={classText}>
+          Splitter Song
+      </h1>
+    </div>
+
+  );
+}
+
+const UserLoginController = (type) =>
+{ 
+  // console.log(type);
+  switch(type) {
+    case 'Register':
+      return (<Register />);
+    default:
+      return (<Login />);
+  };
+}
+
+function App(props) {
+
+  const newPage = useRouteLoaderData("new");
+  const itemPage = useRouteLoaderData("item");
+  let PageDataToDisplay = newPage ? newPage : (itemPage ? itemPage : false);
+                                                    
+  if (props.access==="LoggedIn")
+  {
+    return (<div className="App">
+    <Header size="2"/>
+    <SideScroller loadedData={PageDataToDisplay}/>
+    </div>);
+  }
+  else if(props.access==="LoggedOut")
+  { 
+    return (
+    <div >
+      <Header size="" extra="flex justify-center"/>
+      {UserLoginController(props.type)}
     </div>
   );
+  }
+  
 }
 
 export default App;
